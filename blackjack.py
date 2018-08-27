@@ -29,24 +29,8 @@ class Card():
 
     def __init__(self, name, value):
 
-        self._name = name
-        self._value = value
-
-    @property
-    def name(self):
-        return self._name
-
-    @name.setter
-    def name(self, name):
-        self._name = name
-
-    @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def value(self, value):
-        self._value = value
+        self.name = name
+        self.value = value
 
     def __str__(self):
         return f'{self.name}'
@@ -93,12 +77,6 @@ class CardDeck():
     def get_card(self):
         """ returns a card from the top of the deck """
         return self.deck.pop()
-
-    # For testing only,
-    def show_cards(self):
-
-        for card in self.deck:
-            print(card)
 
 class Hand():
 
@@ -147,6 +125,7 @@ class Hand():
 
     def is_blackjack(self):
         """checks if hand is blackjack"""
+
         card_one_value = self.cards[0].value
         card_two_value = self.cards[1].value
 
@@ -223,7 +202,7 @@ class Player():
     def cash_in_bet(self, amount, multiplier):
         """ Calculate and add winnings to wallet
 
-        OUTPUT: bet value (int), bet multiplier (float, int)
+        INPUT: bet value (int), bet multiplier (float, int)
 
         """
 
@@ -256,9 +235,6 @@ class Player():
     def can_split(self):
         """ Tests if a hand can be split, and checks whether a hand has been split on an
         Ace before. If a split ace exists the current hand can't be split
-        
-        OUTPUT: returns True or False
-        
          """
         
         if len(self.hands) < 4:
@@ -271,6 +247,7 @@ class Player():
 
     def split(self):
         """ Splits the hand when holding pairs to create a new hand """
+
         if len(self.hands) < 4:
             new_hand = Hand(self.curr_hand.bet) # makes new hand
             # decrements value of current hand by value of card to be removed
@@ -285,10 +262,7 @@ class Player():
             print("Cannot split more than 3 times per game.")
 
     def has_next_hand(self):
-        """ Checks if the player has more hands to play
-
-        OUTPUT: True or False
-        """
+        """ Checks if the player has more hands to play """
 
         return (self.index_curr_hand) < (len(self.hands) - 1)
 
@@ -306,11 +280,13 @@ class Dealer():
 
     def deal_card(self, player_dealer):
         """ Takes card from top of deck and deals it to themselves or a player current hand """
+
         card = self.deck.get_card()
         player_dealer.curr_hand.add_card(card)
 
     def new_deck(self):
         """ Gets a new deck and shuffles it"""
+
         self.deck = CardDeck()
         self.shuffle()
 
@@ -319,12 +295,8 @@ class Dealer():
         self.deck.shuffle_cards()
 
     def has_blackjack(self):
-        """ If face up card is an ace then dealer peeks to see
-        if they have blackjack.
+        """ If face up card is an ace then dealer peeks to see if they have blackjack. """
 
-        OUTPUT: True or False
-
-        """
         if self.curr_hand.cards[0].value == 1:
             return self.curr_hand.is_blackjack()
         return False
@@ -332,5 +304,6 @@ class Dealer():
 
     def discard_hand(self):
         """ removes all cards from his hand """
+        
         self.curr_hand.cards.clear()
         self.curr_hand.value = 0
